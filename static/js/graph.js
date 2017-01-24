@@ -120,6 +120,7 @@ function makeGraphs(error, projectsJson, statesJson) {
             return +d.value
         })
         .transitionDuration(600)
+        .x(d3.scale.ordinal())
         .xAxisLabel("Subject")
         .yAxis().ticks(4);
 
