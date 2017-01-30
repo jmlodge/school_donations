@@ -74,8 +74,9 @@ function makeGraphs(error, projectsJson, statesJson) {
     var fundingStatusChart = dc.pieChart("#funding-chart");
     var usChart = dc.geoChoroplethChart("#us-chart");
     //var selectField = dc.selectMenu('#menu-select');
-    var primaryFocusSubChart = dc.barChart("#pri-focus-chart");
+    var primaryFocusSubChart = dc.pieChart("#pri-focus-chart");
 
+    var colourScale = d3.scale.ordinal().range(["#ffe4b2", "#ffc966", "#ffa500", "#cc8400", "#996300"]);
 
     //selectField
       // .dimension(stateDim)
@@ -112,17 +113,14 @@ function makeGraphs(error, projectsJson, statesJson) {
         .yAxis().ticks(4);
 
     primaryFocusSubChart
-        .width(500)
-        .height(200)
+        .height(250)
+        .radius(90)
+        .innerRadius(40)
+        .colors(colourScale)
+        .transitionDuration(1500)
         .dimension(primaryFocusSubDim)
         .group(numPrimaryFocusSub)
-        .ordering(function(d) {
-            return +d.value
-        })
-        .transitionDuration(600)
-        .x(d3.scale.ordinal())
-        .xAxisLabel("Subject")
-        .yAxis().ticks(4);
+        .transitionDuration(600);
 
     resourceTypeChart
         .width(300)
@@ -145,9 +143,10 @@ function makeGraphs(error, projectsJson, statesJson) {
         .xAxis().ticks(4);
 
     fundingStatusChart
-        .height(220)
+        .height(250)
         .radius(90)
         .innerRadius(40)
+        .colors(colourScale)
         .transitionDuration(1500)
         .dimension(fundingStatus)
         .group(numProjectsByFundingStatus);
@@ -157,8 +156,7 @@ function makeGraphs(error, projectsJson, statesJson) {
         .height(330)
         .dimension(stateDim)
         .group(totalDonationsByState)
-        .colors(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF",
-                "#0061B5"])
+        .colors(["#ffe4b2", "#ffc966", "#ffa500", "#cc8400", "#996300"])
         .colorDomain([0, max_state])
         .overlayGeoJson(statesJson["features"], "states", function (d) {
            return d.properties.name;
