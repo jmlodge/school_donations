@@ -10,6 +10,7 @@ function makeGraphs(error, projectsJson, statesJson) {
     //clean projectJson data
     var donorsUSProjects = projectsJson;
     var dateFormat = d3.time.format("%Y-%m-%d %H:%M:%S");
+    var numberFormat = d3.format(",f");
     donorsUSProjects.forEach(function (d) {
        d["date_posted"] = dateFormat.parse(d["date_posted"]);
        d["date_posted"].setDate(1);
@@ -85,6 +86,12 @@ function makeGraphs(error, projectsJson, statesJson) {
       //     return 'State: ' + d.key;
       // });
 
+     // tooltips for pie chart
+    var toolTip = d3.select("body")
+        .append("div")
+        .classed("hidden", true)
+        .attr("id", "tooltip");
+
     numberProjectsND
        .formatNumber(d3.format("d"))
        .valueAccessor(function (d) {
@@ -121,7 +128,18 @@ function makeGraphs(error, projectsJson, statesJson) {
         .transitionDuration(1500)
         .dimension(primaryFocusSubDim)
         .group(numPrimaryFocusSub)
-        .transitionDuration(600);
+        .transitionDuration(600)
+        .on("mouseover", function(d){
+            d3.select("#tooltip")
+                .classed("hidden", false)
+                .style("left", d3.event.pageX - 10 + "px")
+                .style("top", d3.event.pageY - 70 + "px");
+            toolTip.html(d);
+        })
+        .on("mouseout", function(){
+            d3.select("#tooltip")
+                .classed("hidden", true);
+        });
 
     resourceTypeChart
         .width(300)

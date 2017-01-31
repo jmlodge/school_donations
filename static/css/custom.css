@@ -6,6 +6,13 @@
     background-color: #999999;
 }
 
+.title-background {
+   background-color: #d58512;
+}
+
+.metric-background {
+    background-color: #f0ad4e;
+}
 
 #number-projects-nd {
    font-size: 60px;
@@ -15,8 +22,14 @@
    font-size: 60px;
 }
 
-
-
+#tooltip {
+    position: absolute;
+    padding: 5px 10px;
+    background: white;
+    border-radius: 3px;
+    font-family: "Franklin Gothic Medium", sans-serif;
+    font-weight: bold;
+}
 
 .dc-chart g.row text {
    fill: black;
